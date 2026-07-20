@@ -1,0 +1,133 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIANA MINI BOT - Pair</title>
+    <link rel="icon" href="https://files.catbox.moe/im3mlc.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0b0e14',
+                        panel: '#121720',
+                        neon: '#00f5a0',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: #0b0e14;
+            background-image: radial-gradient(ellipse at 30% 50%, rgba(0, 245, 160, 0.05) 0%, transparent 60%);
+        }
+        .glass-panel {
+            background: rgba(18, 23, 32, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 245, 160, 0.12);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #00f5a0, #00c897);
+            box-shadow: 0 4px 20px rgba(0, 245, 160, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 35px rgba(0, 245, 160, 0.35);
+        }
+        .input-glow:focus {
+            box-shadow: 0 0 0 3px rgba(0, 245, 160, 0.15);
+            border-color: #00f5a0;
+        }
+        .neon-text {
+            text-shadow: 0 0 20px rgba(0, 245, 160, 0.3);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen flex items-center justify-center p-4">
+
+    <div class="glass-panel rounded-2xl p-8 max-w-md w-full border border-neon/20 fade-in">
+        <div class="flex justify-center mb-6">
+            <div class="w-16 h-16 rounded-2xl glass-panel flex items-center justify-center neon-text border border-neon/20">
+                <span class="text-2xl font-bold">DX</span>
+            </div>
+        </div>
+
+        <h1 class="text-2xl font-bold text-center neon-text mb-2">DIANA MINI BOT</h1>
+        <p class="text-center text-white/40 text-sm mb-6">WhatsApp Pairing System</p>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-white/50 text-xs uppercase tracking-wider mb-2">
+                    <i class="fa-solid fa-mobile-screen-button mr-2"></i> WhatsApp Number
+                </label>
+                <input 
+                    type="number" 
+                    id="number" 
+                    placeholder="e.g., 1809xxxxxxxxx" 
+                    class="w-full bg-black/30 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/20 focus:outline-none focus:border-neon/50 input-glow transition text-sm"
+                >
+            </div>
+
+            <button id="submit" class="w-full btn-primary text-black font-bold py-4 px-6 rounded-xl text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-link"></i> Connect Device
+            </button>
+        </div>
+
+        <div id="result" class="mt-6 text-center"></div>
+
+        <div class="mt-6 text-center text-white/20 text-xs tracking-wider">
+            <p>🔒 Secure Pairing • Powered by DIANA TECH</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"></script>
+    <script>
+        const submitBtn = document.getElementById("submit");
+        const numberInput = document.getElementById("number");
+        const resultDiv = document.getElementById("result");
+
+        submitBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const number = numberInput.value.replace(/[^0-9]/g, "");
+            if (!number || number.length < 11) {
+                resultDiv.innerHTML = `<span class="text-red-400 text-sm">❌ Invalid number</span>`;
+                return;
+            }
+
+            resultDiv.innerHTML = `<span class="text-neon/70 text-sm flex items-center justify-center gap-2">
+                <span class="w-4 h-4 border-2 border-white/10 border-t-neon rounded-full animate-spin"></span>
+                Processing...
+            </span>`;
+
+            try {
+                const { data } = await axios.get(`/code?number=${number}`);
+                const code = data.code || "Unavailable";
+                resultDiv.innerHTML = `
+                    <div class="glass-panel rounded-xl p-4 border border-neon/20">
+                        <p class="text-xs text-white/40 uppercase tracking-wider">Pairing Code</p>
+                        <p class="text-2xl font-bold neon-text mt-1">${code}</p>
+                        <p class="text-xs text-white/30 mt-2">Expires in 5 minutes</p>
+                    </div>
+                `;
+            } catch (err) {
+                resultDiv.innerHTML = `<span class="text-red-400 text-sm">⚠️ Error, try again</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
