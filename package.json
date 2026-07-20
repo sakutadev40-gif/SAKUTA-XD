@@ -1,0 +1,47 @@
+{
+  "name": "diana-mini-bot",
+  "version": "2.0.0",
+  "description": "DIANA MINI BOT - WhatsApp Multi-Device Bot",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@octokit/rest": "^21.0.2",
+    "@whiskeysockets/baileys": "^6.7.18",
+    "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
+    "cheerio": "^1.0.0-rc.12",
+    "denethdev-ytmp3": "^1.0.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "form-data": "^4.0.0",
+    "fs-extra": "^11.2.0",
+    "jimp": "^1.6.0",
+    "moment-timezone": "^0.5.46",
+    "mongodb": "^6.10.0",
+    "node-fetch": "^2.7.0",
+    "pino": "^9.5.0",
+    "uuid": "^11.0.3",
+    "yt-search": "^2.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "overrides": {
+    "jimp": "^1.6.0"
+  },
+  "keywords": [
+    "whatsapp-bot",
+    "baileys",
+    "multi-device",
+    "diana-bot"
+  ],
+  "author": "DIANA TECH",
+  "license": "MIT"
+}
